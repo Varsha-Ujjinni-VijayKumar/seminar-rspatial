@@ -1,0 +1,201 @@
+---
+title: "NUMBAT seminar"
+subtitle: "Rspatialdata"
+author:
+    - Dilinie Seimon 
+    - Varsha Ujjinni Vijay Kumar
+institute: Monash University
+output:
+  xaringan::moon_reader:
+    css: [csstemp.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+# About Us 
+
+[Dilinie Seimon](https://www.linkedin.com/in/dilinieseimon/) 
+
+- Master's of Business Analytics 
+
+- Bachelor's in Information Technology and Management in Sri Lanka. 
+
+
+[Varsha Ujjinni Vijay Kumar](https://www.linkedin.com/in/varsha-ujjinni-vijay-kumar-1026121a4/)
+
+- Master's of Business Analytics 
+
+- Bachelor's in Information Technology and Engineering in India 
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+???
+
+---
+
+# About KAUST
+
+We spent our summer vacation as visiting students at **KAUST**(King Abdullah University of Science and Technology), remotely.  
+
+**Visiting Student Program**
+
+-  is an exciting opportunity aimed at offering research experience for highly qualified and motivated international students.
+
+-  Collaborate with their faculty in world-class facilities.
+
+
+Our supervisor was the awesome [Dr.Paula Moraga](https://www.paulamoraga.com/), who is an assistant professor at KAUST.
+
+---
+
+# Introduction to [Rspatialdata](https://rspatialdata.github.io/)
+
+- Open and reliable data, analytical tools and collaborative research are crucial for solving global challenges and achieving sustainable development.
+
+--
+
+- Spatial and spatio-temporal data are used in a wide range of fields including health, social and environmental disciplines to improve the evaluation and monitoring of goals both within and across countries.
+
+--
+
+- To facilitate the increasing need to easily access reliable spatial data using R, many R packages have been recently developed as clients for various spatial databases and repositories.
+
+--
+
+- To make it known and easier for people looking to work with spatial data.
+
+---
+class: inverse
+
+# Administrative Boundaries 
+
+- Administrative Boundaries can be taken from `rgeoboundaries` package for data and visualisation.
+
+- It has functions like `geoboundaries()` which can be used to retrieve the administrative boundaries of different regions and can be visualised using the `ggplot2` package.   
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("2021-03-08.png")
+```
+
+---
+
+# Open Street Map 
+
+- `osmdata` package provides spatial data about a wide range of spatial properties and objects across the world. 
+
+- 
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("osm.png")
+```
+
+---
+
+# Population
+
+-
+
+-
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("pop.png")
+```
+---
+
+# Elevation
+
+-
+
+-
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("ele.png")
+```
+
+---
+
+# Temperature
+
+-
+
+-
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("temp.png")
+```
+
+---
+
+# Rainfall
+
+-
+
+-
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("rain.png")
+```
+
+---
+
+# Humidity
+
+-
+
+-
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("humid.png")
+```
+
+---
+
+# Vegetation
+
+-
+
+-
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("veg.png")
+```
+
+
+---
+
+# Malaria
+
+-
+
+-
+
+- Example: 
+
+```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
+knitr::include_graphics("malaria.png")
+```
+
+---
+
