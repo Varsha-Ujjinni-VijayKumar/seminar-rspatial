@@ -15,7 +15,20 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 ---
-class:inverse
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.align = "center",
+	message = FALSE,
+	warning = FALSE
+)
+options(htmltools.dir.version = FALSE)
+library(emo)
+library(xaringanExtra)
+xaringanExtra::use_panelset()
+```
+
 
 # About Us `r emo::ji("person_tipping_hand")`
 
@@ -26,8 +39,8 @@ class:inverse
 .pull-right[
 [Dilinie Seimon](https://www.linkedin.com/in/dilinieseimon/)
 
-.small-font[- Master of Business Analytics at Monash University
-- BSc. in Information Technology and Management in Sri Lanka]
+.small-font[Master of Business Analytics at Monash University  
+BSc. in Information Technology and Management in Sri Lanka]
 ]
 
 
@@ -38,13 +51,13 @@ class:inverse
 .pull-right[
 [Varsha Ujjinni Vijay Kumar](https://www.linkedin.com/in/varsha-ujjinni-vijay-kumar-1026121a4/)
 
-.small-font[- Master of Business Analytics at Monash University
-- Bachelor's in Information Technology and Engineering in India]
+.small-font[Master of Business Analytics at Monash University  
+Bachelor's in Information Technology and Engineering in India]
 ]
 
 ---
 
-# Our Summer Vacation `r emo::ji("sun_with_face")`
+# `r emo::ji("sun_with_face")` Our Summer Vacation 
 
 --
 
@@ -53,9 +66,9 @@ class:inverse
 --
 class: animated,slideInRight
 
-#### The Visiting Student Program at KAUST`r emo::ji("school")`
+#### `r emo::ji("school")` The Visiting Student Program at KAUST
 
--  Aimed at offering research experience for international students while collaborating with their faculties
+Aimed at offering research experience for international students while collaborating with their faculties
 
 ---
 
@@ -82,62 +95,178 @@ Task - create a collection of data sources and tutorials to assist data-driven m
 
 ---
 
-# [Rspatialdata](https://rspatialdata.github.io/)`r emo::ji("milky_way")`
+# `r emo::ji("milky_way")` [Rspatialdata](https://rspatialdata.github.io/)
 
-- Rspatialdata is a collection of data sources and tutorials on visualising different spatial features using R
+Rspatialdata is a collection of data sources and tutorials on visualising different spatial features using R
 
-
-
----
-
-# Technical stuff
-
-- how we can align what we did to our education
-- different packages used - data sources + visualisation packages
-- Github pages
 
 ---
-class: inverse
+
+# `r emo::ji("hammer_and_wrench")` How we built it
+
+--
+
+- Simple R Markdown website
+
+--
+
+- GitHub Pages
+
+--
+
+- R-packages - to download data and create visualisations too
+
+--
+
+- HTML and CSS `r emo::ji("sweat_smile")`
+
+---
 
 # Administrative Boundaries 
 
-- Administrative Boundaries can be taken from `rgeoboundaries` package for data and visualisation.
+Country and lower level administrative divisions' boundaries
 
-- It has functions like `geoboundaries()` which can be used to retrieve the administrative boundaries of different regions and can be visualised using the `ggplot2` package.   
+- Data : [`rgeoboundaries`](https://github.com/wmgeolab/rgeoboundaries) R-package
 
-- Example: 
+.panelset[
+.panel[.panel-name[Map]
 
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("2021-03-08.png")
+```{r admin-boundaries, out.width='100%', fig.height=4, eval=T}
+library(rgeoboundaries)
+library(leaflet)
+# Administrative Level 1 boundaries of Nigeria and Chad
+nigeria_chad_admlvl1_boundaries <- geoboundaries(c("Nigeria", "Chad"), "adm1")
+
+nigeria_chad_admlvl1_boundaries %>% leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(label = nigeria_chad_admlvl1_boundaries$shapeName)
+````
+
+]
+.panel[.panel-name[Code]
+
+```{r admin-boundaries, eval = F, echo = T}
 ```
+
+]
+]
 
 ---
 
 # Open Street Map 
 
-- `osmdata` package provides spatial data about a wide range of spatial properties and objects across the world. 
+Hospitals in Lagos, the largest city in Nigeria
 
-- 
+- Data : [`osmdata`](https://github.com/ropensci/osmdata) R-package
 
-- Example: 
+.panelset[
+.panel[.panel-name[Map]
 
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("osm.png")
+```{r osm-data, out.width='100%', fig.height=4, eval=T}
+library(osmdata)
+library(leaflet)
+
+# creating bounding box for Lagos
+lagos_bb <- getbb("Lagos")
+
+# retrieving data of hospitals in Lagos
+lagos_hospitals <- lagos_bb %>%
+  opq() %>%
+  add_osm_feature("amenity", "hospital") %>%
+  osmdata_sf()
+
+leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(data = lagos_hospitals$osm_polygons,
+              label = lagos_hospitals$osm_polygons$name)
+````
+
+]
+.panel[.panel-name[Code]
+
+```{r osm-data, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
 ```
+
+]
+]
 
 ---
 
 # Population
 
--
+Choropleth maps and Cartograms visualising both country level and lower administrative division level population
 
--
+- Data : [`wopr`](https://github.com/wpgp/wopr) R-package
 
-- Example: 
+.panelset[
+.panel[.panel-name[Choropleth Map]
 
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("pop.png")
+```{r choropleth-map, out.height="300px", eval=T}
+knitr::include_graphics("images/choropleth.PNG", dpi=NA)
+````
+
+]
+.panel[.panel-name[Code]
+
+```{r choropleth-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+library(sf)
+library(here)
+library(ggplot2)
+
+## please follow tutorial at https://rspatialdata.github.io/population.html to download and tidy data
+
+admin_level3_shape <- st_read(here::here("wopr/NGA/population/v1.2/NGA_population_v1_2_admin/NGA_population_v1_2_admin_level3_boundaries.shp"))
+
+admin_level3_shape %>% 
+  ggplot(aes(fill = mean)) +
+  geom_sf() +
+  labs(title = "Choropleth map of population in Nigeria",
+       subtitle = "Administrative level 3 divisions") +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_continuous(name = "Population")
 ```
+
+]
+.panel[.panel-name[Cartogram]
+
+```{r cartogram, out.height="300px", eval=T}
+knitr::include_graphics("images/cartogram.PNG", dpi=NA)
+````
+
+]
+.panel[.panel-name[Code]
+
+```{r cartogram-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+library(sf)
+library(here)
+library(cartogram)
+library(ggplot2)
+
+## please follow tutorial at https://rspatialdata.github.io/population.html to download and tidy data
+
+admin_level2_sf <- st_read(here::here("wopr/NGA/population/v1.2/NGA_population_v1_2_admin/NGA_population_v1_2_admin_level2_boundaries.shp"))
+
+# transforming the coordinates of the object to a new reference system.
+# while we have used a tranformation with EPSG code 2311, specific for Nigeria, codes for other countries can be found at https://epsg.io/
+admin_level2_transformed <- st_transform(admin_level2_sf, crs = 2311)
+
+# creating the cartogram
+admin_level2_cartogram <- cartogram_cont(admin_level2_transformed, "mean", itermax=5)
+
+# visualising the created cartogram
+ggplot() +
+  geom_sf(data = admin_level2_cartogram, aes(fill = mean)) +
+  labs(title = "Cartogram of population in Nigeria",
+       subtitle = "Administrative level 2 divisions") +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_continuous(name = "Population")
+```
+
+]
+]
+
 ---
 
 # Elevation
