@@ -7,15 +7,17 @@ author:
 institute: Monash University
 output:
   xaringan::moon_reader:
-    css: [csstemp.css]
     lib_dir: libs
+    css: [csstemp.css,animate.css]
+    layout: true
     nature:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 ---
+class:inverse
 
-# About Us 
+# About Us `r emo::ji("person_tipping_hand")`
 
 [Dilinie Seimon](https://www.linkedin.com/in/dilinieseimon/) 
 
@@ -39,7 +41,9 @@ options(htmltools.dir.version = FALSE)
 
 ---
 
-# About KAUST
+class: animated,slideInRight
+
+# About KAUST`r emo::ji("school")`
 
 We spent our summer vacation as visiting students at **KAUST**(King Abdullah University of Science and Technology), remotely.  
 
@@ -54,7 +58,7 @@ Our supervisor was the awesome [Dr.Paula Moraga](https://www.paulamoraga.com/), 
 
 ---
 
-# Introduction to [Rspatialdata](https://rspatialdata.github.io/)
+# Introduction to [Rspatialdata](https://rspatialdata.github.io/)`r emo::ji("milky_way")`
 
 - Open and reliable data, analytical tools and collaborative research are crucial for solving global challenges and achieving sustainable development.
 
@@ -116,9 +120,11 @@ knitr::include_graphics("pop.png")
 
 # Elevation
 
--
+- `elevatr` package for a standardized access to the elevation data from the web. 
 
--
+- It takes values from either the USGS elevation point query service (for United States) and Amazon Web services terrain tiles (global elevation data).
+
+- Functions used to get the elevation data are `get_elev_point()`- to get the point elevations and `get_elev_raster()` - it gives the elevation data as a raster.
 
 - Example: 
 
@@ -144,9 +150,11 @@ knitr::include_graphics("temp.png")
 
 # Rainfall
 
--
+- `nasapower` package aims at making it quick and easy to automate downloading NASA POWER global ,meteorological, surface solar energy using `get_power()`.
 
--
+- The argument `pars` is set to **PRECTOT** to get the precipitation dataset.
+
+- We can get previous years data either *daily*,*interannual* and *climatology*(30 year period). 
 
 - Example: 
 
@@ -158,9 +166,9 @@ knitr::include_graphics("rain.png")
 
 # Humidity
 
--
+- Again `nasapower` package is used for retrieving the humidity values.
 
--
+- Function used `get_power()` function with the argument `pars` as **RH2M** to get the data for Relative Humidity at 2 meters.
 
 - Example: 
 
@@ -168,6 +176,10 @@ knitr::include_graphics("rain.png")
 knitr::include_graphics("humid.png")
 ```
 
+???
+- Climatology is used for the whole world data
+
+- 
 ---
 
 # Vegetation
@@ -187,9 +199,11 @@ knitr::include_graphics("veg.png")
 
 # Malaria
 
--
+- The `malariaAtlas` package to download, visualise and manipulate global malaria data hosted by the [**Malaria Atlas Project**](https://malariaatlas.org/).
 
--
+- Functions usable are `getPR()`,`getVecOcc()`, `getShp()` and `getRaster()` for getting data for malaria. 
+
+- Functions for visualising these datasets is by using `autoplot()`. 
 
 - Example: 
 
@@ -198,4 +212,10 @@ knitr::include_graphics("malaria.png")
 ```
 
 ---
+
+```{r echo=FALSE,out.height=600,out.width=750}
+knitr::include_graphics("https://media.giphy.com/media/fv4tD2kW1PSgg/giphy.gif")
+```
+
+
 

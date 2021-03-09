@@ -8,6 +8,7 @@
     <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
     <script src="libs/anchor-sections/anchor-sections.js"></script>
     <link rel="stylesheet" href="csstemp.css" type="text/css" />
+    <link rel="stylesheet" href="animate.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -21,8 +22,9 @@ class: center, middle, inverse, title-slide
 
 ---
 
+class:inverse
 
-# About Us 
+# About Us 💁
 
 [Dilinie Seimon](https://www.linkedin.com/in/dilinieseimon/) 
 
@@ -44,7 +46,9 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# About KAUST
+class: animated,slideInRight
+
+# About KAUST🏫
 
 We spent our summer vacation as visiting students at **KAUST**(King Abdullah University of Science and Technology), remotely.  
 
@@ -59,7 +63,7 @@ Our supervisor was the awesome [Dr.Paula Moraga](https://www.paulamoraga.com/), 
 
 ---
 
-# Introduction to [Rspatialdata](https://rspatialdata.github.io/)
+# Introduction to [Rspatialdata](https://rspatialdata.github.io/)🌌
 
 - Open and reliable data, analytical tools and collaborative research are crucial for solving global challenges and achieving sustainable development.
 
@@ -115,9 +119,11 @@ class: inverse
 
 # Elevation
 
--
+- `elevatr` package for a standardized access to the elevation data from the web. 
 
--
+- It takes values from either the USGS elevation point query service (for United States) and Amazon Web services terrain tiles (global elevation data).
+
+- Functions used to get the elevation data are `get_elev_point()`- to get the point elevations and `get_elev_raster()` - it gives the elevation data as a raster.
 
 - Example: 
 
@@ -139,9 +145,11 @@ class: inverse
 
 # Rainfall
 
--
+- `nasapower` package aims at making it quick and easy to automate downloading NASA POWER global ,meteorological, surface solar energy using `get_power()`.
 
--
+- The argument `pars` is set to **PRECTOT** to get the precipitation dataset.
+
+- We can get previous years data either *daily*,*interannual* and *climatology*(30 year period). 
 
 - Example: 
 
@@ -151,14 +159,18 @@ class: inverse
 
 # Humidity
 
--
+- Again `nasapower` package is used for retrieving the humidity values.
 
--
+- Function used `get_power()` function with the argument `pars` as **RH2M** to get the data for Relative Humidity at 2 meters.
 
 - Example: 
 
 &lt;img src="humid.png" width="350" height="300" style="display: block; margin: auto;" /&gt;
 
+???
+- Climatology is used for the whole world data
+
+- 
 ---
 
 # Vegetation
@@ -176,15 +188,19 @@ class: inverse
 
 # Malaria
 
--
+- The `malariaAtlas` package to download, visualise and manipulate global malaria data hosted by the [**Malaria Atlas Project**](https://malariaatlas.org/).
 
--
+- Functions usable are `getPR()`,`getVecOcc()`, `getShp()` and `getRaster()` for getting data for malaria. 
+
+- Functions for visualising these datasets is by using `autoplot()`. 
 
 - Example: 
 
 &lt;img src="malaria.png" width="350" height="300" style="display: block; margin: auto;" /&gt;
 
 ---
+
+&lt;img src="https://media.giphy.com/media/fv4tD2kW1PSgg/giphy.gif" width="750" height="600" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
