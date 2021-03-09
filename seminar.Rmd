@@ -8,7 +8,7 @@ institute: Monash University
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: [csstemp.css,animate.css]
+    css: [styles.css,animate.css, default]
     layout: true
     nature:
       highlightStyle: github

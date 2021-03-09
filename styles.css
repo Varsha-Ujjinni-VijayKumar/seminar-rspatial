@@ -5,6 +5,10 @@
 	background-size: 100%;
 }
 
+.remark-slide-content h1{
+  font-size: 45px;
+}
+
 .remark-slide-content {
     font-family: Arial;
     font-size: 25px;
