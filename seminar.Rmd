@@ -95,10 +95,15 @@ Task - create a collection of data sources and tutorials to assist data-driven m
 
 ---
 
-# `r emo::ji("milky_way")` [Rspatialdata](https://rspatialdata.github.io/)
+# `r emo::ji("milky_way")`Rspatialdata
 
 Rspatialdata is a collection of data sources and tutorials on visualising different spatial features using R
 
+`r emo::ji("link")`[https://rspatialdata.github.io](https://rspatialdata.github.io/index.html)
+
+```{r rspatialdata, out.height="300px", eval=T}
+knitr::include_graphics("images/rspatialdata.PNG", dpi = NA)
+```
 
 ---
 
@@ -122,6 +127,12 @@ Rspatialdata is a collection of data sources and tutorials on visualising differ
 
 ---
 
+class: center, middle, inverse
+
+## Demo
+
+---
+
 # Administrative Boundaries 
 
 Country and lower level administrative divisions' boundaries
@@ -140,7 +151,7 @@ nigeria_chad_admlvl1_boundaries <- geoboundaries(c("Nigeria", "Chad"), "adm1")
 nigeria_chad_admlvl1_boundaries %>% leaflet() %>% 
   addTiles() %>% 
   addPolygons(label = nigeria_chad_admlvl1_boundaries$shapeName)
-````
+```
 
 ]
 .panel[.panel-name[Code]
@@ -179,7 +190,7 @@ leaflet() %>%
   addTiles() %>% 
   addPolygons(data = lagos_hospitals$osm_polygons,
               label = lagos_hospitals$osm_polygons$name)
-````
+```
 
 ]
 .panel[.panel-name[Code]
@@ -203,7 +214,7 @@ Choropleth maps and Cartograms visualising both country level and lower administ
 
 ```{r choropleth-map, out.height="300px", eval=T}
 knitr::include_graphics("images/choropleth.PNG", dpi=NA)
-````
+```
 
 ]
 .panel[.panel-name[Code]
@@ -231,8 +242,8 @@ admin_level3_shape %>%
 .panel[.panel-name[Cartogram]
 
 ```{r cartogram, out.height="300px", eval=T}
-knitr::include_graphics("images/cartogram.PNG", dpi=NA)
-````
+knitr::include_graphics("images/cartogram.PNG", dpi = NA)
+```
 
 ]
 .panel[.panel-name[Code]
@@ -267,65 +278,137 @@ ggplot() +
 ]
 ]
 
----
-
-# Elevation
-
-- `elevatr` package for a standardized access to the elevation data from the web. 
-
-- It takes values from either the USGS elevation point query service (for United States) and Amazon Web services terrain tiles (global elevation data).
-
-- Functions used to get the elevation data are `get_elev_point()`- to get the point elevations and `get_elev_raster()` - it gives the elevation data as a raster.
-
-- Example: 
-
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("ele.png")
-```
 
 ---
 
 # Temperature
 
--
+Mean maximum temperatures (for the years 1970-2000) in Nigeria
 
--
+- Data : [`raster`](https://cran.r-project.org/web/packages/raster/index.html) R-package - from the [`WorldClim`](https://www.worldclim.org/) database
 
-- Example: 
+.panelset[
+.panel[.panel-name[Map]
 
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("temp.png")
+```{r temperature, out.height="300px", eval=T}
+knitr::include_graphics("images/temperature.PNG", dpi = NA)
 ```
+
+]
+.panel[.panel-name[Code]
+
+```{r temperature-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+library(raster)
+library(ggplot2)
+library(magrittr)
+library(sf)
+library(rgeoboundaries)
+
+
+# Downloading monthly maximum temperature data
+tmax_data <- getData(name = "worldclim", var = "tmax", res = 10)
+
+# Converting temperature values to Celcius
+gain(tmax_data)=0.1
+
+# Calculating mean of the monthly maximum temperatures
+tmax_mean <- mean(tmax_data)
+
+# Downloading the boundary of Nigeria
+nigeria_sf <- geoboundaries("Nigeria")
+
+# Extracting temperature data of Nigeria
+tmax_mean_ngeria <- raster::mask(tmax_mean, as_Spatial(nigeria_sf))
+
+# Converting the raster object into a dataframe
+tmax_mean_nigeria_df <- as.data.frame(tmax_mean_ngeria, xy = TRUE, na.rm = TRUE)
+
+tmax_mean_nigeria_df %>%
+  ggplot(aes(x=x,y=y)) +
+  geom_raster(aes(fill = layer)) +
+  geom_sf(data = nigeria_sf, inherit.aes = FALSE, fill=NA) +
+  labs(title = "Mean monthly maximum temperatures in Nigeria",
+       subtitle = "For the years 1970-2000") +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  scale_fill_gradient(name = "Temperature (°C)",
+                      low =  "#FEED99",
+                      high = "#AF3301")
+```
+
+]
+]
+
+
+---
+
+# Elevation
+
+Country and lower level administrative divisions' land elevation data
+
+- Data : [`elevatr`](https://cran.r-project.org/web/packages/elevatr/index.html) R-package
+
+.panelset[
+.panel[.panel-name[Map]
+
+```{r elevation, out.height="300px", eval=T}
+knitr::include_graphics("images/elevation.PNG", dpi = NA)
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r elevation-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+library(rnaturalearth)
+library(rnaturalearthhires)
+library(elevatr)
+library(ggplot2)
+
+sf_swiss <- ne_states(country = 'switzerland', returnclass='sf')
+
+elevation_1 <- elevatr::get_elev_raster(locations = sf_swiss, z = 7,clip = "locations")
+cropped_elev <- crop(elevation_1,sf_swiss)
+elevate <- as.data.frame(cropped_elev,xy = TRUE)
+
+colnames(elevate)[3] = "elevation_value"
+elevate <- elevate[complete.cases(elevate),]
+
+ggplot() +
+  geom_raster(data = elevate , aes(x = x, y = y,fill = elevation_value )) +
+  geom_sf(data = sf_swiss, color = "white", fill = NA) +
+  coord_sf(xlim = c(5.3,10.8), ylim = c(45.5,47.8))+
+  scale_fill_viridis_c()+
+  ggtitle("Elevation data of Switzerland admininstrative areas")
+```
+
+]
+]
 
 ---
 
 # Rainfall
 
-- `nasapower` package aims at making it quick and easy to automate downloading NASA POWER global ,meteorological, surface solar energy using `get_power()`.
+- Data : [`nasapower`](https://cran.r-project.org/web/packages/nasapower/index.html) R-package - from the [`NASA power project`](https://power.larc.nasa.gov/)
 
-- The argument `pars` is set to **PRECTOT** to get the precipitation dataset.
+- `nasapower` package aims at making it quick and easy to automate downloading `NASA power` global meteorology, surface solar energy and climatology data
 
 - We can get previous years data either *daily*,*interannual* and *climatology*(30 year period). 
 
-- Example: 
-
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("rain.png")
-```
+```{r rainfall, out.height="250px", eval=T}
+knitr::include_graphics("images/rainfall.PNG", dpi = NA)
+``` 
 
 ---
 
 # Humidity
 
-- Again `nasapower` package is used for retrieving the humidity values.
+- Data : Again [`nasapower`](https://cran.r-project.org/web/packages/nasapower/index.html) R-package - from the [`NASA power project`](https://power.larc.nasa.gov/)
 
-- Function used `get_power()` function with the argument `pars` as **RH2M** to get the data for Relative Humidity at 2 meters.
+- Relative Humidity at 2 meters elevation
 
-- Example: 
-
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("humid.png")
-```
+```{r humidity, out.height="250px", eval=T}
+knitr::include_graphics("images/humidity.PNG", dpi = NA)
+``` 
 
 ???
 - Climatology is used for the whole world data
@@ -333,34 +416,43 @@ knitr::include_graphics("humid.png")
 - 
 ---
 
-# Vegetation
-
--
-
--
-
-- Example: 
-
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("veg.png")
-```
-
-
----
-
 # Malaria
 
-- The `malariaAtlas` package to download, visualise and manipulate global malaria data hosted by the [**Malaria Atlas Project**](https://malariaatlas.org/).
+Global Malaria Data(surveyed)
 
-- Functions usable are `getPR()`,`getVecOcc()`, `getShp()` and `getRaster()` for getting data for malaria. 
+- Data : [`malariaAtlas`](https://cran.r-project.org/web/packages/malariaAtlas/index.html) R-package - from the [`Malaria Atlas Project`](https://malariaatlas.org/)
 
-- Functions for visualising these datasets is by using `autoplot()`. 
+.panelset[
+.panel[.panel-name[Map]
 
-- Example: 
-
-```{r echo=FALSE,out.height=300,out.width=350,fig.align='center'}
-knitr::include_graphics("malaria.png")
+```{r malaria, out.height="300px", eval=T}
+knitr::include_graphics("images/malaria.PNG", dpi = NA)
 ```
+
+]
+.panel[.panel-name[Code]
+
+```{r malaria-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+library(malariaAtlas)
+
+IND_shp <- getShp(country = "India", admin_level = "admin0") # get shapefile
+IND_shp_df <- as.MAPshp(IND_shp) # convert shapefile 
+IND_an_dirus <- getRaster(surface = "Anopheles dirus species complex", shp = IND_shp) # get raster
+IND_an_dirus_df <- as.MAPraster(IND_an_dirus) # convert raster
+vec <- getVecOcc(country = c("India"), species = "Anopheles dirus") # get vector point data
+
+p <- autoplot(IND_an_dirus_df, shp_df = IND_shp_df, printed = FALSE) # plot raster and shapefile
+p[[1]] + geom_point(data = vec, aes(longitude, latitude), shape = 21,  show.legend = TRUE)+
+  scale_fill_distiller(name = "Predicted distribution", palette = "YlOrRd")+
+  ggtitle("Raw Vector Survey points + \nThe predicted distribution of Anohpeles dirus species complex")+
+  theme(legend.position = "bottom")+
+  theme_solarized()+
+  labs(x = "Longitude", y = "Latitude")
+```
+
+]
+]
+
 
 ---
 
