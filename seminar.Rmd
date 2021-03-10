@@ -195,7 +195,7 @@ leaflet() %>%
 ]
 .panel[.panel-name[Code]
 
-```{r osm-data, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+```{r osm-data, eval = F, echo = T}
 ```
 
 ]
@@ -219,7 +219,7 @@ knitr::include_graphics("images/choropleth.PNG", dpi=NA)
 ]
 .panel[.panel-name[Code]
 
-```{r choropleth-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+```{r choropleth-code, eval = F, echo = T}
 library(sf)
 library(here)
 library(ggplot2)
@@ -248,7 +248,7 @@ knitr::include_graphics("images/cartogram.PNG", dpi = NA)
 ]
 .panel[.panel-name[Code]
 
-```{r cartogram-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+```{r cartogram-code, eval = F, echo = T}
 library(sf)
 library(here)
 library(cartogram)
@@ -297,7 +297,7 @@ knitr::include_graphics("images/temperature.PNG", dpi = NA)
 ]
 .panel[.panel-name[Code]
 
-```{r temperature-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+```{r temperature-code, eval = F, echo = T}
 library(raster)
 library(ggplot2)
 library(magrittr)
@@ -358,7 +358,7 @@ knitr::include_graphics("images/elevation.PNG", dpi = NA)
 ]
 .panel[.panel-name[Code]
 
-```{r elevation-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+```{r elevation-code, eval = F, echo = T}
 library(rnaturalearth)
 library(rnaturalearthhires)
 library(elevatr)
@@ -432,7 +432,7 @@ knitr::include_graphics("images/malaria.PNG", dpi = NA)
 ]
 .panel[.panel-name[Code]
 
-```{r malaria-code, eval = F, echo = T, attr.output='style="max-height: 200px;"'}
+```{r malaria-code, eval = F, echo = T}
 library(malariaAtlas)
 
 IND_shp <- getShp(country = "India", admin_level = "admin0") # get shapefile

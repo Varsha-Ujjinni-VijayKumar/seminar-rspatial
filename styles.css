@@ -28,3 +28,8 @@
     float: right;
     width: 80%;
 }
+
+.hljs-github .hljs {
+    height: 300px;
+    overflow-y: scroll;
+}
