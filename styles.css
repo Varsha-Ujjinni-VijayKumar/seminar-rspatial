@@ -33,3 +33,8 @@
     height: 300px;
     overflow-y: scroll;
 }
+
+a, a > code {
+    color: rgb(38 103 249);
+    text-decoration: underline;
+}

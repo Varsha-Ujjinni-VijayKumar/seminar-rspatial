@@ -127,12 +127,6 @@ knitr::include_graphics("images/rspatialdata.PNG", dpi = NA)
 
 ---
 
-class: center, middle, inverse
-
-## Demo
-
----
-
 # Administrative Boundaries 
 
 Country and lower level administrative divisions' boundaries
@@ -453,6 +447,13 @@ p[[1]] + geom_point(data = vec, aes(longitude, latitude), shape = 21,  show.lege
 ]
 ]
 
+
+---
+
+
+class: center, middle, inverse
+
+## Demo
 
 ---
 
